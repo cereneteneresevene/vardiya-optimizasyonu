@@ -2,6 +2,20 @@
 
 Bir hastanenin haftalık hemşire vardiya planını otomatik olarak oluşturan optimizasyon sistemi.
 
+## 📸 Ekran Görüntüleri
+
+### Ana Sayfa
+![Ana Sayfa](screenshots/1_anasayfa.png)
+
+### Vardiya Planı
+![Vardiya Planı](screenshots/2_vardiya_plani.png)
+
+### Hemşire Özet Tablosu
+![Özet](screenshots/3_ozet.png)
+
+### Excel Çıktısı
+![Excel](screenshots/4_excel.png)
+
 ## 📌 Problem Tanımı
 
 Hastanelerde vardiya planlaması manuel yapıldığında zaman alıcı ve hata prone bir süreçtir.
