@@ -89,5 +89,38 @@ if st.button("🚀 Vardiya Planını Oluştur"):
             gun_df = sonuc_df[sonuc_df["Gün"] == gun][["Vardiya", "Çalışanlar", "Kişi Sayısı"]]
             st.dataframe(gun_df, use_container_width=True)
 
+    # --- ÖZET İSTATİSTİK ---
+        st.subheader("📊 Hemşire Bazlı Haftalık Özet")
+        ozet = []
+        for h in hemsire_listesi:
+            toplam = sum(
+                value(x[(h, g, v)]) * 8
+                for g in gunler
+                for v in vardiya_listesi
+            )
+            max_saat = hemsireler.loc[hemsireler["isim"] == h, "max_haftalik_saat"].values[0]
+            ozet.append({
+                "Hemşire": h,
+                "Çalışılan Saat": int(toplam),
+                "Max Saat": int(max_saat),
+                "Doluluk %": f"{int(toplam/max_saat*100)}%"
+            })
+        ozet_df = pd.DataFrame(ozet)
+        st.dataframe(ozet_df, use_container_width=True)
+
+        # --- EXCEL'E AKTAR ---
+        st.subheader("📥 Planı İndir")
+        output = pd.ExcelWriter("data/vardiya_plani.xlsx", engine="openpyxl")
+        sonuc_df.to_excel(output, index=False, sheet_name="Vardiya Planı")
+        ozet_df.to_excel(output, index=False, sheet_name="Özet")
+        output.close()
+
+        with open("data/vardiya_plani.xlsx", "rb") as f:
+            st.download_button(
+                label="📥 Excel olarak indir",
+                data=f,
+                file_name="vardiya_plani.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
     else:
         st.error("❌ Optimal çözüm bulunamadı.")
